@@ -38,33 +38,34 @@ public class player : MonoBehaviour
         if (Input.GetKey("w") && isGrounded)
         {
             jumped = true;
-            //if (Input.GetKey("d"))
-            //  rb.AddForce(extraForce, ForceMode2D.Impulse);
-            //else if (Input.GetKey("a"))
-            //  rb.AddForce(extraForceBack, ForceMode2D.Impulse);
-            //else
-            //  rb.AddForce(force, ForceMode2D.Impulse);
-            //isGrounded = false;
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
         }
 
-        //if (Input.GetKey("w") && jumped)
-        //{
-        //    rb.AddForce(force, ForceMode2D.Impulse);
-        //    jumped = false;
-        //}
-
-        //transform.Translate(0, speed, 0);
-
-
-        //if (Input.GetKey("s"))
-        //  transform.Translate(0, -speed, 0);
         if (Input.GetKey("a"))
             rb.velocity = new Vector2(-speed, rb.velocity.y);
         //transform.Translate(-speed, 0, 0);
         else if (Input.GetKey("d"))
             rb.velocity = new Vector2(speed, rb.velocity.y);
             ///transform.Translate(speed, 0, 0);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "rock")
+        {
+            StartCoroutine(PlayerDies());
+        }
+    }
+
+    private IEnumerator PlayerDies()
+    //void PlayerDies()
+    {
+        transform.position = new Vector3(0, -30, 0);
+        yield return new WaitForSeconds(1);
+        rb.velocity = new Vector3(0, 0, 0);
+        transform.position = new Vector3(-6.7f, 10, 0);
+       
+        // yield return null;
     }
 
 
