@@ -15,7 +15,6 @@ public class player : MonoBehaviour
     Vector2 extraForceBack = new Vector2(-30.0f, 35.0f);
     public CircleCollider2D circleCollider;
     bool isGrounded;
-    bool jumped = false;
     public Transform groundCheck;
     public float groundCheckRadius = .1f;
     public LayerMask groundLayer;
@@ -37,16 +36,16 @@ public class player : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         if (Input.GetKey("w") && isGrounded)
         {
-            jumped = true;
+           
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
         }
 
         if (Input.GetKey("a"))
             rb.velocity = new Vector2(-speed, rb.velocity.y);
-        //transform.Translate(-speed, 0, 0);
+       
         else if (Input.GetKey("d"))
             rb.velocity = new Vector2(speed, rb.velocity.y);
-            ///transform.Translate(speed, 0, 0);
+           
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -55,18 +54,61 @@ public class player : MonoBehaviour
         {
             StartCoroutine(PlayerDies());
         }
+        else if (collision.gameObject.name == "snake" || collision.gameObject.name == "snake2" ||
+            collision.gameObject.name == "snake3")
+            StartCoroutine(PlayerDies3());
+        else if (collision.gameObject.name == "rock1" || collision.gameObject.name == "rock2"
+        || collision.gameObject.name == "rock3" || collision.gameObject.name == "rock4" ||
+            collision.gameObject.name == "rock5")
+            StartCoroutine(PlayerDies1());
+       
+    }
+
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "death")
+        {
+            StartCoroutine(PlayerDies());
+        }
+        else if (collision.gameObject.name == "death1")
+            StartCoroutine(PlayerDies2());
     }
 
     private IEnumerator PlayerDies()
-    //void PlayerDies()
     {
         transform.position = new Vector3(0, -30, 0);
         yield return new WaitForSeconds(1);
         rb.velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(-6.7f, 10, 0);
-       
+    }
+
+    private IEnumerator PlayerDies1()
+    //void PlayerDies()
+    {
+        transform.position = new Vector3(0, -30, 0);
+        yield return new WaitForSeconds(1);
+        rb.velocity = new Vector3(0, 0, 0);
+        transform.position = new Vector3(-8.3f, .5f, 0);
+
         // yield return null;
     }
 
+    private IEnumerator PlayerDies2()
+    {
+        transform.position = new Vector3(0, -30, 0);
+        yield return new WaitForSeconds(1);
+        rb.velocity = new Vector3(0, 0, 0);
+        transform.position = new Vector3(-8f, 1.4f, 0);
+    }
+
+    private IEnumerator PlayerDies3()
+    {
+        //transform.position = new Vector3(0, -30, 0);
+        yield return new WaitForSeconds(1);
+        rb.velocity = new Vector3(0, 0, 0);
+        transform.position = new Vector3(-8f, 3.1f, 0);
+    }
 
 }

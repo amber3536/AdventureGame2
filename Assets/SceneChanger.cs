@@ -11,11 +11,16 @@ public class SceneChanger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+       if (collision.gameObject.name == "bunny")
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void loadGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+    }
+
+    public void nextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
